@@ -13,6 +13,7 @@
 
 	<script src="aframe-template-component.js"></script>
 
+    <link rel="stylesheet" href="https://cdn.rawgit.com/ConnorAtherton/loaders.css/master/loaders.min.css"></head>
 	<link rel="stylesheet" href="style.css"></style>
 
 	<script>
@@ -48,6 +49,11 @@
 		
 	</div>
 	<div id="scene-container">
+        <div class="overlay">
+            <div class="loader-inner square-spin">
+              <div></div>
+            </div>
+        </div>
 		<a-scene embedded io3d-lighting anti-alias="true">
 
 			<a-entity id="office" template="src: layout1.hbs; type: handlebars" data-length="6.25"></a-entity>
