@@ -63,7 +63,7 @@
                 <!-- <a-entity id="furniture" template="src: furniture.hbs; type: handlebars"></a-entity> -->
 
                 <a-entity id="target" position="5 0.1 3"></a-entity>
-                <a-entity id="cam" camera="fov: 50; zoom: 1;" position="0 10 10" orbit-controls="invertZoom: true; autoRotate: false; target: #target; enableDamping: true; dampingFactor: 0.2;minDistance:4;maxDistance:50;maxPolarAngle:1.8; enableKeys: true; autoVRLookCam: false; maxPolarAngle: 1.57"></a-entity>
+                <a-entity id="cam" camera="fov: 50; zoom: 1;" position="0 10 10" orbit-controls="invertZoom: true; autoRotate: false; target: #target; enableDamping: true; dampingFactor: 0.2;minDistance:4;maxDistance:100;maxPolarAngle:1.8; enableKeys: true; autoVRLookCam: false; maxPolarAngle: 1.57"></a-entity>
             </a-scene>
         </div>
     </div>
@@ -123,20 +123,20 @@
             addOverlay();
     		var minArea = minAreas[template];
 
-            var camera = document.querySelector('#cam');
-            var orbit = camera.components['orbit-controls'];
-            orbit.target.set(5, 0, 1.3);
-            orbit.dolly.position.set(0, 10, 10);
-            orbit.lookAtTarget(orbit.dolly, orbit.target);
-            orbit.scale = 1;
-            orbit.sphericalDelta.set(0, 0, 0);
-            orbit.updateView();
-
             document.querySelector('#slider-value').textContent = withCommas(area);
     		
     		var officePlan = document.querySelector('#office');
 
     		var length = area / widths[template];
+
+            var camera = document.querySelector('#cam');
+            var orbit = camera.components['orbit-controls'];
+            orbit.target.set(10 - widths[template]/2, 0, length/2);
+            orbit.dolly.position.set(4-widths[template]/2 + -1/2 * Math.max(widths[template], length), 4+Math.max(widths[template], length), length/2 + Math.max(widths[template], length));
+            orbit.lookAtTarget(orbit.dolly, orbit.target);
+            orbit.scale = 1;
+            orbit.sphericalDelta.set(0, 0, 0);
+            orbit.updateView();
 
     		var furnitureSets = Math.floor(length / furnitureSetLength);
     		var furniturePadding = (length - (furnitureSetLength * furnitureSets)) / 2;
