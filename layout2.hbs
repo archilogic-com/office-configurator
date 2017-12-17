@@ -40,4 +40,12 @@
 
 <!-- bottom and right walls -->
 <a-entity io3d-wall="l: 14.6; w: 0.2" position="-6.5 0 {{add length 0.2}}"></a-entity>
-<a-entity io3d-wall="l: {{add length 0.4}}; w: 0.2" position="-6.5 0 0" rotation="0 -90 0"></a-entity>
+<a-entity io3d-wall="l: {{add length 0.4}}; w: 0.2" position="-6.5 0 0" rotation="0 -90 0">
+	{{#each segments}}
+	<a-entity io3d-window="l:1; h:1.2" position="{{add this 0.5}} 1 0"></a-entity>
+	<a-entity io3d-window="l:1; h:1.2" position="{{add this 1.6}} 1 0"></a-entity>
+
+	<a-entity io3d-window="l:1; h:1.2" position="{{add this 3.5}} 1 0"></a-entity>
+	<a-entity io3d-window="l:1; h:1.2" position="{{add this 4.6}} 1 0"></a-entity>
+	{{/each}}
+</a-entity>
