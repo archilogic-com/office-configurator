@@ -36,7 +36,7 @@
 			<select id="office-template">
 				<option value="layout1.hbs" seleced="selected">One compartment</option>
 				<option value="layout2.hbs">Two compartments</option>
-				<option value="layout3.hbs"">Three compartments</option>
+				<option value="layout3.hbs">Three compartments</option>
 			</select>
 		</div>
 
@@ -62,7 +62,7 @@
                 <a-entity id="furniture"></a-entity>
                 <!-- <a-entity id="furniture" template="src: furniture.hbs; type: handlebars"></a-entity> -->
 
-                <a-entity id="target" position="5 0 3"></a-entity>
+                <a-entity id="target" position="5 0.1 3"></a-entity>
                 <a-entity id="cam" camera="fov: 50; zoom: 1;" position="0 10 10" orbit-controls="invertZoom: true; autoRotate: false; target: #target; enableDamping: true; dampingFactor: 0.2;minDistance:4;maxDistance:50;maxPolarAngle:1.8; enableKeys: true; autoVRLookCam: false; maxPolarAngle: 1.57"></a-entity>
             </a-scene>
         </div>
@@ -70,7 +70,7 @@
     <script>
 
     	var furnitureSetLength = 6;
-    	var furnitureZOffset = 0.1;
+    	var furnitureZOffset = 0.2;
     	var widths = {
     		"layout1.hbs": 8,
     		"layout2.hbs": 14,
@@ -127,6 +127,9 @@
     	function reload(template, area) {
             addOverlay();
     		var minArea = minAreas[template];
+
+            // var camera = document.querySelector('#cam');
+            // camera.
 
             document.querySelector('#slider-value').textContent = withCommas(area);
     		
