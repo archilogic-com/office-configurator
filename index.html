@@ -40,10 +40,10 @@
 		</div>
 
 		<div class="slider-container">
-			<h3>Office size</h3>
+			<h3>Office size: <span id="slider-value">50</span>m<sup>2</sup></h3>
 			<input type="range" min="50" max="10000" value="50" class="slider" id="office-area">
 			<span class="anchor-left"><span id="area-min">50</span> m<sup>2</sup></span>	
-			<span class="anchor-right">10,000 m<sup>2</sup></span>
+			<span class="anchor-right"><span id="area-max">10,000</span> m<sup>2</sup></span>
 		</div>
 		
 	</div>
@@ -68,7 +68,7 @@
     		"layout2.hbs": 14,
     		"layout3.hbs": 22,
     	}
-        var maxArea = {
+        var maxAreas = {
             "layout1.hbs": 1000,
             "layout2.hbs": 2000,
             "layout3.hbs": 3000,   
@@ -93,21 +93,30 @@
 
     	var templatePicker = document.querySelector("#office-template");
     	templatePicker.addEventListener('change', function() {
-    		var minArea = minAreas[templatePicker.value];
-    		areaSlider.min = minArea;
-    		document.querySelector('#area-min').textContent = Math.round(minArea).toString();
-    		reload(templatePicker.value, areaSlider.value)
+            updateLimits(templatePicker.value);
+    		reload(templatePicker.value, areaSlider.value);
     	})
     	var areaSlider = document.querySelector('#office-area');
     	areaSlider.addEventListener('change', function() {
-
     		reload(templatePicker.value, areaSlider.value);
     	});
 
+        updateLimits(templatePicker.value);
     	reload(templatePicker.value, areaSlider.value);
+
+        function updateLimits(template) {
+            var minArea = minAreas[template];
+            var maxArea = maxAreas[template];
+            areaSlider.min = minArea;
+            areaSlider.max = maxArea;
+            document.querySelector('#area-min').textContent = minArea;
+            document.querySelector('#area-max').textContent = withCommas(maxArea);
+        }
 
     	function reload(template, area) {
     		var minArea = minAreas[template];
+
+            document.querySelector('#slider-value').textContent = withCommas(area);
     		
     		var officePlan = document.querySelector('#office');
 
@@ -150,6 +159,10 @@
     		// camera.updateComponents();
 
     	}
+
+        function withCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     </script>
 </body>
 </html>
