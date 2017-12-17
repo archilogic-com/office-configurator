@@ -108,6 +108,9 @@
     	areaSlider.addEventListener('change', function() {
     		reload(templatePicker.value, areaSlider.value);
     	});
+        areaSlider.addEventListener('input', function() {
+            document.querySelector('#slider-value').textContent = withCommas(areaSlider.value);
+        })
 
         updateLimits(templatePicker.value);
     	reload(templatePicker.value, areaSlider.value);

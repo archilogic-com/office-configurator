@@ -31,7 +31,7 @@ h1 {
 
 .overlay {
     z-index: 2;
-    background: #D46E7D;
+    background: white;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -44,6 +44,10 @@ h1 {
     -webkit-justify-content: center;
     -ms-align-items: center;
     -ms-justify-content: center;
+}
+
+.square-spin > div {
+    background-color: #D46E7D;
 }
 
 .fadeOut {
@@ -87,6 +91,15 @@ h1 {
     width: 16px;
     height: 16px;
     border-radius: 50%;
+    background: #D46E7D;
+    cursor: pointer;
+}
+
+.slider::-ms-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%; 
     background: #D46E7D;
     cursor: pointer;
 }
