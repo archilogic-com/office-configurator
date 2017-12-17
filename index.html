@@ -48,22 +48,24 @@
 		</div>
 		
 	</div>
-	<div id="scene-container">
+    <div id="scene-area">
         <div class="overlay">
             <div class="loader-inner square-spin">
               <div></div>
             </div>
         </div>
-		<a-scene embedded io3d-lighting anti-alias="true">
+        <div id="scene-container">
+            <a-scene embedded io3d-lighting anti-alias="true">
 
-			<a-entity id="office" template="src: layout1.hbs; type: handlebars" data-length="6.25"></a-entity>
+                <a-entity id="office" template="src: layout1.hbs; type: handlebars" data-length="6.25"></a-entity>
 
-			<a-entity id="furniture"></a-entity>
-			<!-- <a-entity id="furniture" template="src: furniture.hbs; type: handlebars"></a-entity> -->
+                <a-entity id="furniture"></a-entity>
+                <!-- <a-entity id="furniture" template="src: furniture.hbs; type: handlebars"></a-entity> -->
 
-		    <a-entity id="target" position="5 0 3"></a-entity>
-		    <a-entity id="cam" camera="fov: 50; zoom: 1;" position="0 10 10" orbit-controls="invertZoom: true; autoRotate: false; target: #target; enableDamping: true; dampingFactor: 0.2;minDistance:4;maxDistance:50;maxPolarAngle:1.8; enableKeys: true; autoVRLookCam: false; maxPolarAngle: 1.57"></a-entity>
-	    </a-scene>
+                <a-entity id="target" position="5 0 3"></a-entity>
+                <a-entity id="cam" camera="fov: 50; zoom: 1;" position="0 10 10" orbit-controls="invertZoom: true; autoRotate: false; target: #target; enableDamping: true; dampingFactor: 0.2;minDistance:4;maxDistance:50;maxPolarAngle:1.8; enableKeys: true; autoVRLookCam: false; maxPolarAngle: 1.57"></a-entity>
+            </a-scene>
+        </div>
     </div>
     <script>
 
@@ -120,6 +122,7 @@
         }
 
     	function reload(template, area) {
+            addOverlay();
     		var minArea = minAreas[template];
 
             document.querySelector('#slider-value').textContent = withCommas(area);
@@ -140,6 +143,16 @@
 
     		var furniturePositions = [];
 
+            var totalModels = 0;
+            var loaded = 0;
+
+            function modelLoaded() {
+                loaded++;
+                if(loaded >= totalModels) {
+                    removeOverlay();
+                }
+            }
+
     		for(var i=0; i<starts.length; ++i) {
     			var x = starts[i];
 
@@ -152,7 +165,18 @@
     				ele.setAttribute("position", x + " 0 " + z);
     				furniture.appendChild(ele);
 
-    				
+    				ele.addEventListener("templaterendered", function templateLoaded() {
+                        ele.removeEventListener("templaterendered", templateLoaded);
+                        traverseNodes(ele, function(node) {
+                            if(node.hasAttribute('io3d-furniture')) {
+                                totalModels++;
+                                node.addEventListener('model-loaded', function onModel() {
+                                    node.removeEventListener('model-loaded', onModel);
+                                    modelLoaded();
+                                })
+                            }
+                        })
+                    });
     			}
     		}
 
@@ -165,9 +189,32 @@
     		// camera.updateComponents();
 
     	}
+        
+        function removeOverlay() {
+            var overlay = document.querySelector('.overlay');
+            overlay.classList.remove("fadeIn");
+            overlay.classList.add("fadeOut");
+        }
+
+        function addOverlay() {
+            var overlay = document.querySelector('.overlay');
+            overlay.classList.remove("fadeOut");
+            overlay.classList.add("fadeIn");
+        }
 
         function withCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        function traverseNodes(root, func) {
+            var stack = [root];
+            while(stack.length > 0) {
+                var curr = stack.pop();
+                func(curr);
+                if(typeof curr.getChildren === "function") {
+                    stack.push.apply(stack, curr.getChildren());
+                }
+            }
         }
     </script>
 </body>
