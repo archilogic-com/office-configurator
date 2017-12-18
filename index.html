@@ -134,7 +134,7 @@
             orbit.target.set(10 - widths[template]/2, 0, length/2);
             orbit.dolly.position.set(4-widths[template]/2 + -1/2 * Math.max(widths[template], length), 4+Math.max(widths[template], length), length/2 + Math.max(widths[template], length));
             orbit.lookAtTarget(orbit.dolly, orbit.target);
-            orbit.scale = 0.1;
+            orbit.scale = 1;
             orbit.sphericalDelta.set(0, 0, 0);
             orbit.updateView();
 
